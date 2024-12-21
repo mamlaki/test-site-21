@@ -6,17 +6,55 @@
   font-family: sans-serif;
 }
 
+/* BASE STYLES */
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   min-height: 100vh;
-  background-color: #fffbea;
+  background-color: #FFFBEA;
   color: #272727;
 }
 
 header h1 {
   margin-top: 2rem;
+  margin-bottom: 1rem;
   color: #404040;
+}
+
+/* TASK SECTION STYLES (MAIN) */
+.task-input-sec {
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.5rem;
+}
+
+#taskInput {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid grey;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#addTaskBtn {
+  padding: 0.5rem 1rem;
+  background-color: #76AADF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#addTaskBtn:hover {
+  background-color: #A3BDD6; 
+}
+
+#taskList {
+  list-style-type: none;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
 }
