@@ -1,3 +1,13 @@
+let tasks = [];
+
+class Task {
+  constructor(id, text, completed = false) {
+    this.id = id;
+    this.text = text;
+    this.completed = completed;
+  }
+}
+
 const taskForm = document.querySelector('#taskForm');
 const taskInput = document.querySelector('#taskInput');
 const taskList = document.querySelector('#taskList');
@@ -11,44 +21,55 @@ taskForm.addEventListener('submit', (e) => {
 
   // (check if there is anything in the input).
   if (taskText !== '') {
-    // Add task list item w/ input value to list.
-    addNewTask(taskText);
+    // Add task list item (created w/ the Task class) w/ input value to list (tasks array).
+    const newTask = new Task(Date.now(), taskText, false);;
+    tasks.push(newTask);
+    // Render task list, now w/ new addition.
+    renderTasks();
     // Reset input field.
     taskInput.value = '';
   }
+  
 });
 
-function addNewTask(text) {
-  // Create task entry for list.
-  const li = document.createElement('li');
-  li.classList.add('task-item');
+function renderTasks() {
+  // Reset task list.
+  taskList.innerHTML = '';
+  
+  // Re-add tasks to the task list, updated.
+  tasks.forEach((task) => {
+    // Create task entry for list.
+    const li = document.createElement('li');
+    li.classList.add('task-item');
 
-  const span = document.createElement('span');
-  span.classList.add('task-text');
-  span.textContent = text;
+    const span = document.createElement('span');
+    span.classList.add('task-text');
+    span.textContent = task.text;
+    // Assign completed styles if marked as such.
+    if (task.completed) {
+      span.classList.add('completed');
+    }
 
-  // Add a remove button for each task.
-  const removeBtn = document.createElement('button');
-  removeBtn.classList.add('remove-btn');
-  removeBtn.textContent = 'X';
-  li.appendChild(span);
-  li.append(removeBtn);
+    // Add a remove button for each task.
+    const removeBtn = document.createElement('button');
+    removeBtn.classList.add('remove-btn');
+    removeBtn.textContent = 'X';
 
-  // Add task entry to list
-  taskList.appendChild(li);
+    // Toggle completion.
+    span.addEventListener('click', () => {
+      task.completed = !task.completed;
+      renderTasks();
+    });
+
+    // Remove button functionality.
+    removeBtn.addEventListener('click', () => {
+      tasks = tasks.filter((t) => t.id !== task.id);
+      renderTasks();
+    });
+
+    // Add task to the list array.
+    li.appendChild(span);
+    li.appendChild(removeBtn);
+    taskList.appendChild(li);
+  });
 }
-
-// Toggle task completion and removal.
-taskList.addEventListener('click', (e) => {
-  const target = e.target;
-
-  // Toggle completed class.
-  if (target.classList.contains('task-text')) {
-    target.classList.toggle('completed');
-  }
-
-  // Remove button functionality.
-  if (target.classList.contains('remove-btn')) {
-    target.parentElement.remove();
-  }
-});
