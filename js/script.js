@@ -1,3 +1,4 @@
+// BASE TASK FUNCTIONALITY
 let tasks = [];
 
 // Checking for previously saved tasks.
@@ -17,6 +18,30 @@ class Task {
 const taskForm = document.querySelector('#taskForm');
 const taskInput = document.querySelector('#taskInput');
 const taskList = document.querySelector('#taskList');
+// FOR TASK FILTER FUNCTIONALITY
+const showAllBtn = document.querySelector('#showAllBtn');
+const showActiveBtn = document.querySelector('#showActiveBtn');
+const showCompletedBtn = document.querySelector('#showCompletedBtn');
+// Set default filter to "All"
+let currentFilter = 'all';
+
+// Set filter to "All"
+showAllBtn.addEventListener('click', () => {
+  currentFilter = 'all';
+  renderTasks();
+})
+
+showActiveBtn.addEventListener('click', () => {
+  currentFilter = 'active';
+  renderTasks();
+})
+
+showCompletedBtn.addEventListener('click', () => {
+  console.log("COMPLETED!")
+  currentFilter = 'completed';
+  renderTasks();
+})
+
 
 renderTasks();
 
@@ -44,9 +69,18 @@ taskForm.addEventListener('submit', (e) => {
 function renderTasks() {
   // Reset task list.
   taskList.innerHTML = '';
+  let filteredTasks = [];
+  // Filter tasks logic.
+  if (currentFilter === 'all') {
+    filteredTasks = tasks;
+  } else if (currentFilter === 'active') {
+    filteredTasks = tasks.filter((task) => !task.completed);
+  } else if (currentFilter === 'completed') {
+    filteredTasks = tasks.filter((task) => task.completed);
+  }
   
   // Re-add tasks to the task list, updated.
-  tasks.forEach((task) => {
+  filteredTasks.forEach((task) => {
     // Create task entry for list.
     const li = document.createElement('li');
     li.classList.add('task-item');
