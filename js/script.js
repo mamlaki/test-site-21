@@ -1,5 +1,6 @@
 let tasks = [];
 
+// Checking for previously saved tasks.
 const savedTasks = localStorage.getItem('test-site-21-tasks');
 if (savedTasks) {
   tasks = JSON.parse(savedTasks);
@@ -84,6 +85,7 @@ function renderTasks() {
   });
 }
 
+// Updating localStorage w/ new tasks / states (completed/deleted).
 function saveTasks() {
   localStorage.setItem('test-site-21-tasks', JSON.stringify(tasks));
 }
