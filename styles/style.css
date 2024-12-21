@@ -61,3 +61,35 @@ header h1 {
   max-width: 500px;
   margin: 0 auto;
 }
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottoM: 0.5rem;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.task-text.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.task-text:hover {
+  cursor: pointer;
+}
+
+.remove-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  color: gray;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  color: #CC0000;
+}
