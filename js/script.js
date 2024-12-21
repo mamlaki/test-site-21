@@ -1,5 +1,10 @@
 let tasks = [];
 
+const savedTasks = localStorage.getItem('test-site-21-tasks');
+if (savedTasks) {
+  tasks = JSON.parse(savedTasks);
+}
+
 class Task {
   constructor(id, text, completed = false) {
     this.id = id;
@@ -11,6 +16,8 @@ class Task {
 const taskForm = document.querySelector('#taskForm');
 const taskInput = document.querySelector('#taskInput');
 const taskList = document.querySelector('#taskList');
+
+renderTasks();
 
 taskForm.addEventListener('submit', (e) => {
   // Get task input value.
@@ -24,6 +31,7 @@ taskForm.addEventListener('submit', (e) => {
     // Add task list item (created w/ the Task class) w/ input value to list (tasks array).
     const newTask = new Task(Date.now(), taskText, false);;
     tasks.push(newTask);
+    saveTasks();
     // Render task list, now w/ new addition.
     renderTasks();
     // Reset input field.
@@ -58,12 +66,14 @@ function renderTasks() {
     // Toggle completion.
     span.addEventListener('click', () => {
       task.completed = !task.completed;
+      saveTasks();
       renderTasks();
     });
 
     // Remove button functionality.
     removeBtn.addEventListener('click', () => {
       tasks = tasks.filter((t) => t.id !== task.id);
+      saveTasks();
       renderTasks();
     });
 
@@ -72,4 +82,8 @@ function renderTasks() {
     li.appendChild(removeBtn);
     taskList.appendChild(li);
   });
+}
+
+function saveTasks() {
+  localStorage.setItem('test-site-21-tasks', JSON.stringify(tasks));
 }
