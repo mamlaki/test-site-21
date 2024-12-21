@@ -26,6 +26,9 @@ header h1 {
 /* TASK SECTION STYLES (MAIN) */
 .task-input-sec {
   margin: 1rem 0;
+}
+
+#taskForm {
   display: flex;
   gap: 0.5rem;
 }
