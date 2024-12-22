@@ -128,6 +128,10 @@ function renderTasks() {
     removeBtn.classList.add('remove-btn');
     removeBtn.textContent = 'X';
 
+    const editBtn = document.createElement('button');
+    editBtn.classList.add('edit-btn');
+    editBtn.textContent = 'Edit';
+
     // Toggle completion.
     span.addEventListener('click', () => {
       task.completed = !task.completed;
@@ -144,6 +148,7 @@ function renderTasks() {
 
     // Add task to the list array.
     li.appendChild(span);
+    li.appendChild(editBtn);
     li.appendChild(removeBtn);
     taskList.appendChild(li);
   });
