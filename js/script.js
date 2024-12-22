@@ -127,6 +127,15 @@ function renderTasks() {
     const li = document.createElement('li');
     li.classList.add('task-item');
 
+    // Colour code task card based on priority.
+    if (task.priority === 'low') {
+      li.classList.add('priority-low');
+    } else if (task.priority === 'medium') {
+      li.classList.add('priority-medium');
+    } else if (task.priority === 'high') {
+      li.classList.add('priority-high');
+    }
+
     // Content Container
     const contentDiv = document.createElement('div');
     contentDiv.classList.add('task-content');

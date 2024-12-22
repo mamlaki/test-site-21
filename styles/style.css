@@ -173,6 +173,18 @@ header h1 {
   gap: 0.5rem;
 }
 
+.priority-low {
+  border-left: 5px solid #4CAF50;
+}
+
+.priority-medium {
+  border-left: 5px solid #FFC107;
+}
+
+.priority-high {
+  border-left: 5px solid var(--remove-hover-red);
+}
+
 .edit-btn {
   background-color: transparent;
   border: 1px solid var(--dark-color);
@@ -240,7 +252,7 @@ header h1 {
 .filter-sec button:hover {
   background-color: var(--button-hover);
 }
-  
+
 /* GIVE taskDueDate GREY PLACEHOLDER - WEBKIT */
 input[type="date"]::-webkit-datetime-edit-text {
   color: #999999;
