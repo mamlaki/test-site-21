@@ -28,6 +28,9 @@ const taskPrioritySelect = document.querySelector('#taskPriority');
 const showAllBtn = document.querySelector('#showAllBtn');
 const showActiveBtn = document.querySelector('#showActiveBtn');
 const showCompletedBtn = document.querySelector('#showCompletedBtn');
+// FOR PRIORITY FILTERING FUNCTIONALITY
+const priorityFilerSelect = document.querySelector('#priorityFilterSelect');
+let currentPriorityFilter = 'all';
 // FOR THEME TOGGLE FUNCTIONALITY
 const themeToggleBtn = document.querySelector('#themeToggle');
 const body = document.body;
@@ -65,18 +68,23 @@ let currentFilter = 'all';
 showAllBtn.addEventListener('click', () => {
   currentFilter = 'all';
   renderTasks();
-})
+});
 
 showActiveBtn.addEventListener('click', () => {
   currentFilter = 'active';
   renderTasks();
-})
+});
 
 showCompletedBtn.addEventListener('click', () => {
   console.log("COMPLETED!")
   currentFilter = 'completed';
   renderTasks();
-})
+});
+
+priorityFilerSelect.addEventListener('change', () => {
+  currentPriorityFilter = priorityFilerSelect.value;
+  renderTasks();
+});
 
 renderTasks();
 
@@ -121,6 +129,10 @@ function renderTasks() {
     filteredTasks = tasks.filter((task) => task.completed);
   }
   
+  if (currentPriorityFilter !== 'all') {
+    filteredTasks = filteredTasks.filter((task) => task.priority === currentPriorityFilter);
+  }
+
   // Re-add tasks to the task list, updated.
   filteredTasks.forEach((task) => {
     // Create task entry for list.
