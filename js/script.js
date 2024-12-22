@@ -125,23 +125,19 @@ function renderTasks() {
 
     // Content Container
     const contentDiv = document.createElement('div');
-    contentDiv.style.display = 'flex';
-    contentDiv.style.flexDirection = 'column';
-    contentDiv.style.flexGrow = '1';
+    contentDiv.classList.add('task-content');
 
     // Title
     const titleSpan = document.createElement('span');
-    titleSpan.classList.add('task-text');
+    titleSpan.classList.add('task-content-title', 'task-text');
     titleSpan.textContent = task.text;
-
     // Assign completed styles if marked as such.
     if (task.completed) titleSpan.classList.add('completed');
 
-
     // Details
     const detailsPara = document.createElement('p');
+    detailsPara.classList.add('task-content-details');
     detailsPara.textContent = task.details;
-    detailsPara.style.marginTop = '0.25rem';
 
     // Due Date
     const dueDatePara = document.createElement('p');
@@ -153,8 +149,7 @@ function renderTasks() {
 
     // Buttons Container
     const buttonsDiv = document.createElement('div');
-    buttonsDiv.style.display = 'flex';
-    buttonsDiv.style.gap = '0.5rem';
+    buttonsDiv.classList.add('task-buttons');
 
     // Edit Button
     const editBtn = document.createElement('button');
@@ -228,7 +223,7 @@ function switchToEditMode(li, task, editBtn) {
 
   const detailsTextArea = document.createElement('textarea');
   detailsTextArea.value = task.details;
-  detailsTextArea.rows = 2;
+  detailsTextArea.rows = 3;
   textInput.style.marginBottom = '0.5rem';
 
   const dueDateInput = document.createElement('input');

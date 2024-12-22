@@ -137,6 +137,27 @@ header h1 {
   background-color: var(--light-color);
 }
 
+.task-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.task-content-title {
+  margin-bottom: 0.25rem;
+}
+
+.task-content-details {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.task-content-due-date {
+  font-weight: bold;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
 .task-text.completed {
   text-decoration: line-through;
   opacity: 0.6;
@@ -144,6 +165,11 @@ header h1 {
 
 .task-text:hover {
   cursor: pointer;
+}
+
+.task-buttons {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .edit-btn {
