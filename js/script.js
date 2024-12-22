@@ -22,6 +22,36 @@ const taskList = document.querySelector('#taskList');
 const showAllBtn = document.querySelector('#showAllBtn');
 const showActiveBtn = document.querySelector('#showActiveBtn');
 const showCompletedBtn = document.querySelector('#showCompletedBtn');
+// FOR THEME TOGGLE FUNCTIONALITY
+const themeToggleBtn = document.querySelector('#themeToggle');
+const body = document.body;
+
+// THEME TOGGLING
+// Set theme last set (stored in localStorage), if not default to light mode.
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+if (currentTheme === 'dark') {
+  body.classList.add('dark-mode');
+  themeToggleBtn.textContent = 'Light Mode';
+} else {
+  themeToggleBtn.textContent = 'Dark Mode';
+}
+
+// Toggle theme when theme button is clicked.
+themeToggleBtn.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+
+    if (body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+      themeToggleBtn.textContent = 'Light Mode';
+    } else {
+      localStorage.setItem('theme', 'light');
+      themeToggleBtn.textContent = 'Dark Mode';
+    }
+});
+
+
+// TASK FILTERING
 // Set default filter to "All"
 let currentFilter = 'all';
 
@@ -42,9 +72,9 @@ showCompletedBtn.addEventListener('click', () => {
   renderTasks();
 })
 
-
 renderTasks();
 
+// TASK FORM
 taskForm.addEventListener('submit', (e) => {
   // Get task input value.
   const taskText = taskInput.value.trim();
