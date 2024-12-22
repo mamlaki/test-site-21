@@ -76,7 +76,6 @@ showActiveBtn.addEventListener('click', () => {
 });
 
 showCompletedBtn.addEventListener('click', () => {
-  console.log("COMPLETED!")
   currentFilter = 'completed';
   renderTasks();
 });
