@@ -98,7 +98,7 @@ taskForm.addEventListener('submit', (e) => {
     renderTasks();
     // Reset input field.
     taskInput.value = '';
-    taskDetails = '';
+    taskDetails.value = '';
     taskDueDate.value = '';
   }
   
@@ -123,22 +123,48 @@ function renderTasks() {
     const li = document.createElement('li');
     li.classList.add('task-item');
 
-    const span = document.createElement('span');
-    span.classList.add('task-text');
-    span.textContent = task.text;
+    // Content Container
+    const contentDiv = document.createElement('div');
+    contentDiv.style.display = 'flex';
+    contentDiv.style.flexDirection = 'column';
+    contentDiv.style.flexGrow = '1';
+
+    // Title
+    const titleSpan = document.createElement('span');
+    titleSpan.classList.add('task-text');
+    titleSpan.textContent = task.text;
+
     // Assign completed styles if marked as such.
-    if (task.completed) {
-      span.classList.add('completed');
+    if (task.completed) titleSpan.classList.add('completed');
+
+
+    // Details
+    const detailsPara = document.createElement('p');
+    detailsPara.textContent = task.details;
+    detailsPara.style.marginTop = '0.25rem';
+
+    // Due Date
+    const dueDatePara = document.createElement('p');
+    if (task.dueDate) {
+      dueDatePara.textContent = `Due: ${task.dueDate}`;
+    } else {
+      dueDatePara.textContent = 'No due date.';
     }
+
+    // Buttons Container
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.style.display = 'flex';
+    buttonsDiv.style.gap = '0.5rem';
+
+    // Edit Button
+    const editBtn = document.createElement('button');
+    editBtn.classList.add('edit-btn');
+    editBtn.innerHTML = '<i class="fas fa-pen"></i>';
 
     // Add a remove button for each task.
     const removeBtn = document.createElement('button');
     removeBtn.classList.add('remove-btn');
-    removeBtn.textContent = 'X';
-
-    const editBtn = document.createElement('button');
-    editBtn.classList.add('edit-btn');
-    editBtn.textContent = 'Edit';
+    removeBtn.innerHTML = '<i class="fas fa-trash"></i>';
 
     editBtn.addEventListener('click', () =>{
       // EDIT MODE
@@ -149,12 +175,13 @@ function renderTasks() {
         // Current task name.
         editInput.value = task.text;
         // Replace the span (aka the task name) with the new input field.
-        li.replaceChild(editInput, span);
+        li.replaceChild(editInput, titleSpan);
         // Save button.
         editBtn.textContent = 'Save';
       } // SAVE MODE (BELOW)
       else {
         const editInput = li.querySelector('input[type="text"]');
+        console.log(editInput);
         const updatedText = editInput.value.trim();
 
         // Update the task with the new text from the edit input + save to localStorage.
@@ -169,7 +196,7 @@ function renderTasks() {
     });
 
     // Toggle completion.
-    span.addEventListener('click', () => {
+    titleSpan.addEventListener('click', () => {
       task.completed = !task.completed;
       saveTasks();
       renderTasks();
@@ -182,10 +209,18 @@ function renderTasks() {
       renderTasks();
     });
 
+    // Add task content to content div
+    contentDiv.appendChild(titleSpan);
+    if (task.details) contentDiv.appendChild(detailsPara);
+    if (task.dueDate) contentDiv.appendChild(dueDatePara);
+
+    // Add buttons to buttons div
+    buttonsDiv.appendChild(editBtn);
+    buttonsDiv.appendChild(removeBtn);
+
     // Add task to the list array.
-    li.appendChild(span);
-    li.appendChild(editBtn);
-    li.appendChild(removeBtn);
+    li.appendChild(contentDiv);
+    li.appendChild(buttonsDiv);
     taskList.appendChild(li);
   });
 }
