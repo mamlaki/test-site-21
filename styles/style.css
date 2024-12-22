@@ -72,12 +72,31 @@ header h1 {
 
 #taskForm {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
 #taskInput {
-  flex: 1;
+  flex: 1 1 100%;
   padding: 0.5rem;
+  border: 1px solid var(--dark-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#taskDetails {
+  flex: 1 1 100%;
+  min-height: 60px;
+  padding: 0.5rem;
+  border: 1px solid var(--dark-color);
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 1rem;
+}
+
+#taskDueDate {
+  flex: 0 0 auto;
+  padding: 0.3rem;
   border: 1px solid var(--dark-color);
   border-radius: 4px;
   font-size: 1rem;
