@@ -154,6 +154,7 @@ function renderTasks() {
 
     // Due Date
     const dueDatePara = document.createElement('p');
+    dueDatePara.classList.add('task-content-due-date');
     if (task.dueDate) {
       dueDatePara.textContent = `Due: ${task.dueDate}`;
     } else {
