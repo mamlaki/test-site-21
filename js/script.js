@@ -160,6 +160,11 @@ function renderTasks() {
       dueDatePara.textContent = 'No due date.';
     }
 
+    // Priority
+    const priorityPara = document.createElement('p');
+    priorityPara.classList.add('task-content-priority');
+    priorityPara.textContent = `Priority: ${(task.priority || 'medium').charAt(0).toUpperCase()}`;
+
     // Buttons Container
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('task-buttons');
@@ -202,6 +207,7 @@ function renderTasks() {
     contentDiv.appendChild(titleSpan);
     if (task.details) contentDiv.appendChild(detailsPara);
     if (task.dueDate) contentDiv.appendChild(dueDatePara);
+    if (task.priority) contentDiv.appendChild(priorityPara);
 
     // Add buttons to buttons div
     buttonsDiv.appendChild(editBtn);

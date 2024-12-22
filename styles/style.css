@@ -159,6 +159,12 @@ header h1 {
   margin-bottom: 0.25rem;
 }
 
+.task-content-priority {
+  font-weight: bold;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
 .task-text.completed {
   text-decoration: line-through;
   opacity: 0.6;
