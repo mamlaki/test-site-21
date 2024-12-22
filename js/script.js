@@ -132,6 +132,34 @@ function renderTasks() {
     editBtn.classList.add('edit-btn');
     editBtn.textContent = 'Edit';
 
+    editBtn.addEventListener('click', () =>{
+      // EDIT MODE
+      if (editBtn.textContent === 'Edit') {
+        // Create text field for editing.
+        const editInput = document.createElement('input');
+        editInput.type = 'text';
+        // Current task name.
+        editInput.value = task.text;
+        // Replace the span (aka the task name) with the new input field.
+        li.replaceChild(editInput, span);
+        // Save button.
+        editBtn.textContent = 'Save';
+      } // SAVE MODE (BELOW)
+      else {
+        const editInput = li.querySelector('input[type="text"]');
+        const updatedText = editInput.value.trim();
+
+        // Update the task with the new text from the edit input + save to localStorage.
+        if (updatedText !== '') {
+          task.text = updatedText;
+          saveTasks();
+        }
+
+        // Re-render the task list, which is now updated.
+        renderTasks();
+      }
+    });
+
     // Toggle completion.
     span.addEventListener('click', () => {
       task.completed = !task.completed;
