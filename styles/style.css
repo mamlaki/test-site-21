@@ -245,7 +245,8 @@ header h1 {
   margin-bottom: 1rem;
 }
 
-.filter-sec button {
+.filter-sec button,
+.filter-sec select {
   padding: 0.5rem 1rem;
   background-color: var(--primary-color);
   color: var(--dark-color);
@@ -255,7 +256,8 @@ header h1 {
   cursor: pointer;
 }
 
-.filter-sec button:hover {
+.filter-sec button:hover,
+.filter-sec select:hover {
   background-color: var(--button-hover);
 }
 
