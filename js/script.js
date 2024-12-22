@@ -219,16 +219,17 @@ function switchToEditMode(li, task, editBtn) {
   const textInput = document.createElement('input');
   textInput.type = 'text';
   textInput.value = task.text;
-  textInput.style.marginBottom = '0.5rem';
+  textInput.classList.add('edit-text-input');
 
   const detailsTextArea = document.createElement('textarea');
   detailsTextArea.value = task.details;
   detailsTextArea.rows = 3;
-  textInput.style.marginBottom = '0.5rem';
+  detailsTextArea.classList.add('edit-textarea');
 
   const dueDateInput = document.createElement('input');
   dueDateInput.type = 'date';
   dueDateInput.value = task.dueDate;
+  dueDateInput.classList.add('edit-date-input');
 
   // Add inputs to content container.
   contentDiv.appendChild(textInput);
