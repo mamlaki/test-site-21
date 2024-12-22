@@ -23,6 +23,7 @@ const taskInput = document.querySelector('#taskInput');
 const taskList = document.querySelector('#taskList');
 const taskDetailsInput = document.querySelector('#taskDetails');
 const taskDueDateInput = document.querySelector('#taskDueDate');
+const taskPrioritySelect = document.querySelector('#taskPriority');
 // FOR TASK FILTER FUNCTIONALITY
 const showAllBtn = document.querySelector('#showAllBtn');
 const showActiveBtn = document.querySelector('#showActiveBtn');
@@ -88,19 +89,21 @@ taskForm.addEventListener('submit', (e) => {
   const taskText = taskInput.value.trim();
   const taskDetails = taskDetailsInput.value.trim();
   const taskDueDate = taskDueDateInput.value;
+  const taskPriority = taskPrioritySelect.value;
 
   // (check if there is anything in the input).
   if (taskText !== '') {
     // Add task list item (created w/ the Task class) w/ input value to list (tasks array).
-    const newTask = new Task(Date.now(), taskText, false, taskDetails, taskDueDate);;
+    const newTask = new Task(Date.now(), taskText, false, taskDetails, taskDueDate, taskPriority);;
     tasks.push(newTask);
     saveTasks();
     // Render task list, now w/ new addition.
     renderTasks();
     // Reset input field.
     taskInput.value = '';
-    taskDetails.value = '';
-    taskDueDate.value = '';
+    taskDetailsInput.value = '';
+    taskDueDateInput.value = '';
+    taskPrioritySelect.value = 'medium';
   }
   
 });
