@@ -31,6 +31,9 @@ const showCompletedBtn = document.querySelector('#showCompletedBtn');
 // FOR PRIORITY FILTERING FUNCTIONALITY
 const priorityFilerSelect = document.querySelector('#priorityFilterSelect');
 let currentPriorityFilter = 'all';
+// FOR PRIORITYING SORTING FUNCTIONALITY
+const prioritySortBtn = document.querySelector('#prioritySortBtn');
+let isSortingByPriority = false;
 // FOR THEME TOGGLE FUNCTIONALITY
 const themeToggleBtn = document.querySelector('#themeToggle');
 const body = document.body;
@@ -85,6 +88,12 @@ priorityFilerSelect.addEventListener('change', () => {
   renderTasks();
 });
 
+prioritySortBtn.addEventListener('click', () => {
+  isSortingByPriority = !isSortingByPriority;
+  console.log(isSortingByPriority)
+  renderTasks();
+});
+
 renderTasks();
 
 // TASK FORM
@@ -130,6 +139,13 @@ function renderTasks() {
   
   if (currentPriorityFilter !== 'all') {
     filteredTasks = filteredTasks.filter((task) => task.priority === currentPriorityFilter);
+  }
+
+  if (isSortingByPriority) {
+    const priorityOrder = { high: 3, medium: 2, low: 1 };
+    filteredTasks.sort((a, b) => {
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    });
   }
 
   // Re-add tasks to the task list, updated.
