@@ -168,30 +168,11 @@ function renderTasks() {
 
     editBtn.addEventListener('click', () =>{
       // EDIT MODE
-      if (editBtn.textContent === 'Edit') {
-        // Create text field for editing.
-        const editInput = document.createElement('input');
-        editInput.type = 'text';
-        // Current task name.
-        editInput.value = task.text;
-        // Replace the span (aka the task name) with the new input field.
-        li.replaceChild(editInput, titleSpan);
-        // Save button.
-        editBtn.textContent = 'Save';
-      } // SAVE MODE (BELOW)
+      if (editBtn.dataset.mode !== 'editing') {
+        switchToEditMode(li, task, editBtn);
+      } // SAVE AND RETURN TO NORMAL VIEW
       else {
-        const editInput = li.querySelector('input[type="text"]');
-        console.log(editInput);
-        const updatedText = editInput.value.trim();
-
-        // Update the task with the new text from the edit input + save to localStorage.
-        if (updatedText !== '') {
-          task.text = updatedText;
-          saveTasks();
-        }
-
-        // Re-render the task list, which is now updated.
-        renderTasks();
+        saveEditMode(li, task, editBtn);
       }
     });
 
@@ -228,4 +209,53 @@ function renderTasks() {
 // Updating localStorage w/ new tasks / states (completed/deleted).
 function saveTasks() {
   localStorage.setItem('test-site-21-tasks', JSON.stringify(tasks));
+}
+
+function switchToEditMode(li, task, editBtn) {
+  editBtn.dataset.mode = 'editing';
+  // Switch to save icon.
+  editBtn.innerHTML = '<i class="fas fa-save"></i>';
+
+  const contentDiv = li.querySelector('div');
+  // Clearing the content div to replace with inputs.
+  contentDiv.innerHTML = ''
+
+  // Create inputs for editing
+  const textInput = document.createElement('input');
+  textInput.type = 'text';
+  textInput.value = task.text;
+  textInput.style.marginBottom = '0.5rem';
+
+  const detailsTextArea = document.createElement('textarea');
+  detailsTextArea.value = task.details;
+  detailsTextArea.rows = 2;
+  textInput.style.marginBottom = '0.5rem';
+
+  const dueDateInput = document.createElement('input');
+  dueDateInput.type = 'date';
+  dueDateInput.value = task.dueDate;
+
+  // Add inputs to content container.
+  contentDiv.appendChild(textInput);
+  contentDiv.appendChild(detailsTextArea);
+  contentDiv.appendChild(dueDateInput);
+}
+
+function saveEditMode(li, task, editBtn) {
+  editBtn.dataset.mode = '';
+  // Switch (back) to edit icon.
+  editBtn.innerHTML = '<i class="fas fa-pen"></i>';
+
+  const contentDiv = li.querySelector('div');
+  const inputs = contentDiv.querySelectorAll('input, textarea');
+  const updatedText = inputs[0].value.trim();
+  const updatedDetails = inputs[1].value.trim();
+  const updatedDueDate = inputs[2].value.trim();
+
+  if (updatedText) task.text = updatedText;
+  task.details = updatedDetails;
+  task.dueDate = updatedDueDate;
+
+  saveTasks();
+  renderTasks();
 }
