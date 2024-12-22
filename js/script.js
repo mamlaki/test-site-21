@@ -8,12 +8,13 @@ if (savedTasks) {
 }
 
 class Task {
-  constructor(id, text, completed = false, details = '', dueDate = '') {
+  constructor(id, text, completed = false, details = '', dueDate = '', priority = 'medium') {
     this.id = id;
     this.text = text;
     this.completed = completed;
     this.details = details;
     this.dueDate = dueDate;
+    this.priority = priority;
   }
 }
 

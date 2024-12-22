@@ -240,7 +240,7 @@ header h1 {
 .filter-sec button:hover {
   background-color: var(--button-hover);
 }
-
+  
 /* GIVE taskDueDate GREY PLACEHOLDER - WEBKIT */
 input[type="date"]::-webkit-datetime-edit-text {
   color: #999999;
