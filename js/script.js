@@ -105,7 +105,6 @@ priorityFilerSelect.addEventListener('change', () => {
 
 prioritySortBtn.addEventListener('click', () => {
   isSortingByPriority = !isSortingByPriority;
-  console.log(isSortingByPriority)
   renderTasks();
 });
 
@@ -160,8 +159,6 @@ function renderTasks() {
       return priorityOrder[a.priority] - priorityOrder[b.priority];
     });
   }
-
-  console.log('Final array after sorting/filtering: ', filteredTasks);
 
   // Re-add tasks to the task list, updated.
   filteredTasks.forEach((task) => {
