@@ -110,10 +110,16 @@ priorityFilerSelect.addEventListener('change', () => {
 prioritySortBtn.addEventListener('click', () => {
   if (sortState === 'off') {
     sortState = 'asc';
+    prioritySortBtn.textContent = 'Low ➡️ High';
+    prioritySortBtn.classList.add('priority-btn-sort-toggle');
   } else if (sortState === 'asc') {
     sortState = 'desc';
+    prioritySortBtn.textContent = 'High ➡️ Low';
+    prioritySortBtn.classList.add('priority-btn-sort-toggle');
   } else if (sortState === 'desc') {
     sortState = 'off';
+    prioritySortBtn.textContent = 'Sort by Priority [Off]'
+    prioritySortBtn.classList.remove('priority-btn-sort-toggle');
   }
 
   renderTasks();
