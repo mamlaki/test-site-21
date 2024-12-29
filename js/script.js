@@ -127,11 +127,9 @@ taskForm.addEventListener('submit', (e) => {
 function renderTasks() {
   // Reset task list.
   taskList.innerHTML = '';
-  let filteredTasks = [];
+  let filteredTasks = [...tasks];
   // Filter tasks logic.
-  if (currentFilter === 'all') {
-    filteredTasks = tasks;
-  } else if (currentFilter === 'active') {
+  if (currentFilter === 'active') {
     filteredTasks = tasks.filter((task) => !task.completed);
   } else if (currentFilter === 'completed') {
     filteredTasks = tasks.filter((task) => task.completed);
