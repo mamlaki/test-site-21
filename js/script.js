@@ -1,11 +1,8 @@
 // BASE TASK FUNCTIONALITY
 let tasks = [];
 
-// Checking for previously saved tasks.
-const savedTasks = localStorage.getItem('test-site-21-tasks');
-if (savedTasks) {
-  tasks = JSON.parse(savedTasks);
-
+// Normalize tasks:
+function normalizeTasks(tasks) {
   tasks.forEach((task) => {
     if (typeof task.priority !== 'string') {
       task.priority = 'medium';
@@ -18,7 +15,14 @@ if (savedTasks) {
       task.priority = 'medium';
     }
   });
+  return tasks;
+}
 
+// Checking for previously saved tasks.
+const savedTasks = localStorage.getItem('test-site-21-tasks');
+if (savedTasks) {
+  tasks = JSON.parse(savedTasks);
+  tasks = normalizeTasks(tasks);
   localStorage.setItem('test-site-21-tasks', JSON.stringify(tasks));
 }
 
