@@ -50,9 +50,11 @@ const showCompletedBtn = document.querySelector('#showCompletedBtn');
 // FOR PRIORITY FILTERING FUNCTIONALITY
 const priorityFilerSelect = document.querySelector('#priorityFilterSelect');
 let currentPriorityFilter = 'all';
-// FOR PRIORITYING SORTING FUNCTIONALITY
+// FOR PRIORITY SORTING FUNCTIONALITY
 const prioritySortBtn = document.querySelector('#prioritySortBtn');
 let isSortingByPriority = false;
+// FOR ENSURING THAT PRIORITY SORTING TOGGLES CORRECTLY (WORKING AROUND STABLE SORT):
+let sortDirection = 'asc';
 // FOR THEME TOGGLE FUNCTIONALITY
 const themeToggleBtn = document.querySelector('#themeToggle');
 const body = document.body;
@@ -108,7 +110,12 @@ priorityFilerSelect.addEventListener('change', () => {
 });
 
 prioritySortBtn.addEventListener('click', () => {
-  isSortingByPriority = !isSortingByPriority;
+  if (!isSortingByPriority) {
+    isSortingByPriority = true;
+    sortDirection = 'asc';
+  } else {
+    sortDirection = (sortDirection === 'asc') ? 'desc' : 'asc';
+  }
   renderTasks();
 });
 
@@ -159,10 +166,18 @@ function renderTasks() {
 
   if (isSortingByPriority) {
     const priorityOrder = { high: 3, medium: 2, low: 1 };
-    filteredTasks.sort((a, b) => {
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
-    });
+    if (sortDirection === 'asc') {
+      filteredTasks.sort((a, b) => {
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      });
+    } else {
+      filteredTasks.sort((a, b) => {
+        return priorityOrder[b.priority] - priorityOrder[a.priority];
+      });
+    }
   }
+
+  console.log("Final tasks after sort: ", filteredTasks);
 
   // Re-add tasks to the task list, updated.
   filteredTasks.forEach((task) => {
@@ -318,3 +333,4 @@ function saveEditMode(li, task, editBtn) {
   saveTasks();
   renderTasks();
 }
+
