@@ -52,9 +52,7 @@ const priorityFilerSelect = document.querySelector('#priorityFilterSelect');
 let currentPriorityFilter = 'all';
 // FOR PRIORITY SORTING FUNCTIONALITY
 const prioritySortBtn = document.querySelector('#prioritySortBtn');
-let isSortingByPriority = false;
-// FOR ENSURING THAT PRIORITY SORTING TOGGLES CORRECTLY (WORKING AROUND STABLE SORT):
-let sortDirection = 'asc';
+let sortState = 'off'; // will toggle between off, ascending, and descending.
 // FOR THEME TOGGLE FUNCTIONALITY
 const themeToggleBtn = document.querySelector('#themeToggle');
 const body = document.body;
@@ -110,12 +108,14 @@ priorityFilerSelect.addEventListener('change', () => {
 });
 
 prioritySortBtn.addEventListener('click', () => {
-  if (!isSortingByPriority) {
-    isSortingByPriority = true;
-    sortDirection = 'asc';
-  } else {
-    sortDirection = (sortDirection === 'asc') ? 'desc' : 'asc';
+  if (sortState === 'off') {
+    sortState = 'asc';
+  } else if (sortState === 'asc') {
+    sortState = 'desc';
+  } else if (sortState === 'desc') {
+    sortState = 'off';
   }
+
   renderTasks();
 });
 
@@ -164,16 +164,13 @@ function renderTasks() {
     filteredTasks = filteredTasks.filter((task) => task.priority === currentPriorityFilter);
   }
 
-  if (isSortingByPriority) {
+  if (sortState !== 'off') {
     const priorityOrder = { high: 3, medium: 2, low: 1 };
-    if (sortDirection === 'asc') {
-      filteredTasks.sort((a, b) => {
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-      });
-    } else {
-      filteredTasks.sort((a, b) => {
-        return priorityOrder[b.priority] - priorityOrder[a.priority];
-      });
+
+    if (sortState === 'asc') {
+      filteredTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    } else if (sortState === 'desc') {
+      filteredTasks.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
     }
   }
 
