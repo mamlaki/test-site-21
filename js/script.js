@@ -5,6 +5,21 @@ let tasks = [];
 const savedTasks = localStorage.getItem('test-site-21-tasks');
 if (savedTasks) {
   tasks = JSON.parse(savedTasks);
+
+  tasks.forEach((task) => {
+    if (typeof task.priority !== 'string') {
+      task.priority = 'medium';
+      return;
+    }
+
+    task.priority = task.priority.trim().toLowerCase();
+
+    if (!['low', 'medium', 'high'].includes(task.priority)) {
+      task.priority = 'medium';
+    }
+  });
+
+  localStorage.setItem('test-site-21-tasks', JSON.stringify(tasks));
 }
 
 class Task {
@@ -128,13 +143,13 @@ function renderTasks() {
   // Reset task list.
   taskList.innerHTML = '';
   let filteredTasks = [...tasks];
-  // Filter tasks logic.
+  // Filter tasks logic.  
   if (currentFilter === 'active') {
-    filteredTasks = tasks.filter((task) => !task.completed);
+    filteredTasks = filteredTasks.filter((task) => !task.completed);
   } else if (currentFilter === 'completed') {
-    filteredTasks = tasks.filter((task) => task.completed);
+    filteredTasks = filteredTasks.filter((task) => task.completed);
   }
-  
+
   if (currentPriorityFilter !== 'all') {
     filteredTasks = filteredTasks.filter((task) => task.priority === currentPriorityFilter);
   }
@@ -142,9 +157,11 @@ function renderTasks() {
   if (isSortingByPriority) {
     const priorityOrder = { high: 3, medium: 2, low: 1 };
     filteredTasks.sort((a, b) => {
-      return priorityOrder[b.priority] - priorityOrder[a.priority];
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
     });
   }
+
+  console.log('Final array after sorting/filtering: ', filteredTasks);
 
   // Re-add tasks to the task list, updated.
   filteredTasks.forEach((task) => {
