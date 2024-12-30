@@ -1,18 +1,30 @@
 // BASE TASK FUNCTIONALITY
 let tasks = [];
 
-// Normalize tasks:
+// PRIORITY MAPPING
+const PRIORITY_MAP = {
+  "low": 1,
+  "medium": 2,
+  "high": 3
+};
+
+const PRIORITY_LABEL = {
+  1: "L",
+  2: "M",
+  3: "H"
+};
+
+// Normalize tasks, (CHECK IF THE PRIORITY IS A STRING, IF IT IS NOW CONVER TO A NUMBER):
 function normalizeTasks(tasks) {
   tasks.forEach((task) => {
-    if (typeof task.priority !== 'string') {
-      task.priority = 'medium';
-      return;
-    }
-
-    task.priority = task.priority.trim().toLowerCase();
-
-    if (!['low', 'medium', 'high'].includes(task.priority)) {
-      task.priority = 'medium';
+    if (typeof task.priority === 'string') {
+      task.priority = PRIORITY_MAP[task.priority.toLowerCase()] || 2; // default to medium if there is no existing priority assigned.
+    } else if (typeof task.priority === 'number') {
+      if (task.priority < 1 || task.priority > 3) {
+        taskPriority = 2;
+      }
+    } else {
+      task.priority = 2;
     }
   });
   return tasks;
@@ -27,7 +39,7 @@ if (savedTasks) {
 }
 
 class Task {
-  constructor(id, text, completed = false, details = '', dueDate = '', priority = 'medium') {
+  constructor(id, text, completed = false, details = '', dueDate = '', priority = 2) {
     this.id = id;
     this.text = text;
     this.completed = completed;
@@ -136,12 +148,13 @@ taskForm.addEventListener('submit', (e) => {
   const taskText = taskInput.value.trim();
   const taskDetails = taskDetailsInput.value.trim();
   const taskDueDate = taskDueDateInput.value;
-  const taskPriority = taskPrioritySelect.value;
+  const priorityString = taskPrioritySelect.value;
+  const numericPriority = PRIORITY_MAP[priorityString.toLowerCase()] || 2;
 
   // (check if there is anything in the input).
   if (taskText !== '') {
     // Add task list item (created w/ the Task class) w/ input value to list (tasks array).
-    const newTask = new Task(Date.now(), taskText, false, taskDetails, taskDueDate, taskPriority);;
+    const newTask = new Task(Date.now(), taskText, false, taskDetails, taskDueDate, numericPriority);
     tasks.push(newTask);
     saveTasks();
     // Render task list, now w/ new addition.
@@ -167,16 +180,15 @@ function renderTasks() {
   }
 
   if (currentPriorityFilter !== 'all') {
-    filteredTasks = filteredTasks.filter((task) => task.priority === currentPriorityFilter);
+    const filterVal = PRIORITY_MAP[currentPriorityFilter.toLocaleLowerCase()] || 2;
+    filteredTasks = filteredTasks.filter((task) => task.priority === filterVal);
   }
 
   if (sortState !== 'off') {
-    const priorityOrder = { high: 3, medium: 2, low: 1 };
-
     if (sortState === 'asc') {
-      filteredTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+      filteredTasks.sort((a, b) => a.priority - b.priority);
     } else if (sortState === 'desc') {
-      filteredTasks.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+      filteredTasks.sort((a, b) => b.priority - a.priority);
     }
   }
 
@@ -189,11 +201,11 @@ function renderTasks() {
     li.classList.add('task-item');
 
     // Colour code task card based on priority.
-    if (task.priority === 'low') {
+    if (task.priority === 1) {
       li.classList.add('priority-low');
-    } else if (task.priority === 'medium') {
+    } else if (task.priority === 2) {
       li.classList.add('priority-medium');
-    } else if (task.priority === 'high') {
+    } else if (task.priority === 3) {
       li.classList.add('priority-high');
     }
 
@@ -225,7 +237,7 @@ function renderTasks() {
     // Priority
     const priorityPara = document.createElement('p');
     priorityPara.classList.add('task-content-priority');
-    priorityPara.textContent = `Priority: ${(task.priority || 'medium').charAt(0).toUpperCase()}`;
+    priorityPara.textContent = `Priority: ${PRIORITY_LABEL[task.priority]}`;
 
     // Buttons Container
     const buttonsDiv = document.createElement('div');
