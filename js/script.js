@@ -155,7 +155,7 @@ taskForm.addEventListener('submit', (e) => {
   if (taskText !== '') {
     // Add task list item (created w/ the Task class) w/ input value to list (tasks array).
     const newTask = new Task(Date.now(), taskText, false, taskDetails, taskDueDate, numericPriority);
-    tasks.push(newTask);
+    tasks.unshift(newTask);
     saveTasks();
     // Render task list, now w/ new addition.
     renderTasks();
