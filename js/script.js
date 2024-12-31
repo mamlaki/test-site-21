@@ -324,10 +324,27 @@ function switchToEditMode(li, task, editBtn) {
   dueDateInput.value = task.dueDate;
   dueDateInput.classList.add('edit-date-input');
 
+  const prioritySelect = document.createElement('select');
+  prioritySelect.classList.add('edit-priority-select');
+
+  const priorityOptions = ['low', 'medium', 'high'];
+  priorityOptions.forEach((val) => {
+    const option = document.createElement('option');
+    option.value = val;
+    option.textContent = `Priority: ${val.charAt(0).toUpperCase()}`;
+
+    if (task.priority === PRIORITY_MAP[val]) {
+      option.selected = true;
+    }
+
+    prioritySelect.appendChild(option);
+  })
+
   // Add inputs to content container.
   contentDiv.appendChild(textInput);
   contentDiv.appendChild(detailsTextArea);
   contentDiv.appendChild(dueDateInput);
+  contentDiv.appendChild(prioritySelect);
 }
 
 function saveEditMode(li, task, editBtn) {
@@ -336,14 +353,17 @@ function saveEditMode(li, task, editBtn) {
   editBtn.innerHTML = '<i class="fas fa-pen"></i>';
 
   const contentDiv = li.querySelector('div');
-  const inputs = contentDiv.querySelectorAll('input, textarea');
+  const inputs = contentDiv.querySelectorAll('input, textarea, select');
   const updatedText = inputs[0].value.trim();
   const updatedDetails = inputs[1].value.trim();
   const updatedDueDate = inputs[2].value.trim();
+  const updatedPriorityString = inputs[3].value.toLowerCase();
+  const updatedPriorityNumber = PRIORITY_MAP[updatedPriorityString] || 2; 
 
   if (updatedText) task.text = updatedText;
   task.details = updatedDetails;
   task.dueDate = updatedDueDate;
+  task.priority = updatedPriorityNumber;
 
   saveTasks();
   renderTasks();

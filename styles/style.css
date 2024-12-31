@@ -216,7 +216,8 @@ header h1 {
 }
 
 .edit-text-input,
-.edit-textarea {
+.edit-textarea,
+.edit-priority-select {
   margin-bottom: 0.5rem;
   border: 1px solid var(--dark-color);
   border-radius: 4px;
@@ -233,6 +234,7 @@ header h1 {
   border: 1px solid var(--dark-color);
   border-radius: 4px;
   padding: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .remove-btn {
