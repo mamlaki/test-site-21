@@ -122,11 +122,11 @@ priorityFilerSelect.addEventListener('change', () => {
 prioritySortBtn.addEventListener('click', () => {
   if (sortState === 'off') {
     sortState = 'asc';
-    prioritySortBtn.textContent = 'Low ➡️ High';
+    prioritySortBtn.innerHTML = 'Low <i class="fa-solid fa-arrow-right"></i> High';
     prioritySortBtn.classList.add('priority-btn-sort-toggle');
   } else if (sortState === 'asc') {
     sortState = 'desc';
-    prioritySortBtn.textContent = 'High ➡️ Low';
+    prioritySortBtn.innerHTML = 'High <i class="fa-solid fa-arrow-right"></i> Low';
     prioritySortBtn.classList.add('priority-btn-sort-toggle');
   } else if (sortState === 'desc') {
     sortState = 'off';
