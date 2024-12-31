@@ -64,7 +64,10 @@ const priorityFilerSelect = document.querySelector('#priorityFilterSelect');
 let currentPriorityFilter = 'all';
 // FOR PRIORITY SORTING FUNCTIONALITY
 const prioritySortBtn = document.querySelector('#prioritySortBtn');
-let sortState = 'off'; // will toggle between off, ascending, and descending.
+let prioritySortState = 'off'; // will toggle between off, ascending, and descending.
+// FOR DATE SORTING FUNCTIONALITY
+const dateSortBtn = document.querySelector('#dateSortBtn');
+let dateSortState = 'off';
 // FOR THEME TOGGLE FUNCTIONALITY
 const themeToggleBtn = document.querySelector('#themeToggle');
 const body = document.body;
@@ -120,20 +123,37 @@ priorityFilerSelect.addEventListener('change', () => {
 });
 
 prioritySortBtn.addEventListener('click', () => {
-  if (sortState === 'off') {
-    sortState = 'asc';
-    prioritySortBtn.innerHTML = 'Low <i class="fa-solid fa-arrow-right"></i> High';
-    prioritySortBtn.classList.add('priority-btn-sort-toggle');
-  } else if (sortState === 'asc') {
-    sortState = 'desc';
-    prioritySortBtn.innerHTML = 'High <i class="fa-solid fa-arrow-right"></i> Low';
-    prioritySortBtn.classList.add('priority-btn-sort-toggle');
-  } else if (sortState === 'desc') {
-    sortState = 'off';
+  if (prioritySortState === 'off') {
+    prioritySortState = 'asc';
+    prioritySortBtn.innerHTML = 'Priority: Low <i class="fa-solid fa-arrow-right"></i> High';
+    prioritySortBtn.classList.add('sort-btn-toggle');
+  } else if (prioritySortState === 'asc') {
+    prioritySortState = 'desc';
+    prioritySortBtn.innerHTML = 'Priority: High <i class="fa-solid fa-arrow-right"></i> Low';
+    prioritySortBtn.classList.add('sort-btn-toggle');
+  } else if (prioritySortState === 'desc') {
+    prioritySortState = 'off';
     prioritySortBtn.textContent = 'Sort by Priority [Off]'
-    prioritySortBtn.classList.remove('priority-btn-sort-toggle');
+    prioritySortBtn.classList.remove('sort-btn-toggle');
   }
 
+  renderTasks();
+});
+
+dateSortBtn.addEventListener('click', () => {
+  if (dateSortState === 'off') {
+    dateSortState = 'asc';
+    dateSortBtn.textContent = 'Sort by Date [On]';
+    dateSortBtn.classList.add('sort-btn-toggle');
+  } else if (dateSortState === 'asc') {
+    dateSortState = 'desc';
+    dateSortBtn.textContent = 'Sort by Date [On]';
+    dateSortBtn.classList.add('sort-btn-toggle');
+  } else if (dateSortState === 'desc') {
+    dateSortState = 'off';
+    dateSortBtn.textContent = 'Sort by Date [Off]';
+    dateSortBtn.classList.remove('sort-btn-toggle');
+  }
   renderTasks();
 });
 
@@ -184,10 +204,24 @@ function renderTasks() {
     filteredTasks = filteredTasks.filter((task) => task.priority === filterVal);
   }
 
-  if (sortState !== 'off') {
-    if (sortState === 'asc') {
+  // Sort tasks logic
+  if (dateSortState !== 'off') {
+    filteredTasks.sort((a, b) => {
+      const dateA = a.dueDate ? Date.parse(a.dueDate) : 0;
+      const dateB = b.dueDate ? Date.parse(b.dueDate) : 0;
+
+      if (dateSortState === 'asc') {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
+    });
+  }
+
+  if (prioritySortState !== 'off') {
+    if (prioritySortState === 'asc') {
       filteredTasks.sort((a, b) => a.priority - b.priority);
-    } else if (sortState === 'desc') {
+    } else if (prioritySortState === 'desc') {
       filteredTasks.sort((a, b) => b.priority - a.priority);
     }
   }

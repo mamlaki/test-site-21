@@ -191,12 +191,12 @@ header h1 {
   border-left: 5px solid var(--remove-hover-red);
 }
 
-.priority-btn-sort-toggle {
+.sort-btn-toggle {
   font-weight: bold;
   background-color: var(--button-hover) !important;
 }
 
-.priority-btn-sort-toggle:hover {
+.sort-btn-toggle:hover {
   background-color: var(--primary-color) !important;
 }
 
